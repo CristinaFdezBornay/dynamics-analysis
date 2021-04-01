@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import librosa
 import librosa.display
 import sklearn
+import numpy as np
 
 audio_data = 'prueba_hard.wav'
 x , sr = librosa.load(audio_data, sr=48000)
@@ -23,3 +24,6 @@ plt.plot(t, normalize(spectral_rolloff), color='r')
 plt.xlabel("Time (s)")
 plt.title("Spectral Rolloff")
 plt.show()
+
+mean = np.sum(normalize(spectral_rolloff)) / len(normalize(spectral_rolloff))
+print(mean)
