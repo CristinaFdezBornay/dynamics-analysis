@@ -1,24 +1,26 @@
-import matplotlib.pyplot as plt
-import librosa
-import librosa.display
-import sklearn
-import numpy as np
+try:
+    from classes.wav import Wav
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import librosa.display
+except NameError as e:
+    print(e)
+    print('[Import error] Please run <pip install -r requirements.txt>')
+    exit()
 
-audio_data = 'prueba_hard.wav'
-x , sr = librosa.load(audio_data, sr=48000)
+def main():
+    try:
+        model = Wav()
+        plt.figure(figsize=(14, 5))
+        librosa.display.waveplot(model.dataset, sr=model.sr)
+        range_to_plot = model.get_range_to_plot(0, len(model.dataset))
+        print("Zero crossing: {}".format(model.calculate_zero_crossing(range_to_plot)))
+        plt.figure(figsize=(14, 5))
+        plt.plot(model.dataset[range_to_plot])
+        plt.grid()
+        plt.show()
+    except NameError as e:
+        print(e)
 
-#Plot the signal:
-plt.figure(figsize=(14, 5))
-librosa.display.waveplot(x, sr=sr)
-
-# Zooming in
-n0 = 10
-n1 = 300
-n1 = len(x)
-plt.figure(figsize=(14, 5))
-plt.plot(x[n0:n1])
-plt.grid()
-plt.show()
-
-zero_crossings = librosa.zero_crossings(x[n0:n1], pad=False)
-print(sum(zero_crossings))
+if __name__ == '__main__':
+    main()
